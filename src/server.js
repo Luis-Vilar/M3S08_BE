@@ -6,13 +6,24 @@ const { config } = require("dotenv");
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swaggerConfig'); // Path to your Swagger configuration file
 
+const logger = require("./log/index");
+const pinoHttp = require("pino-http")({ logger });
+
 
 config();
 
 // classe server
 class Server {
+  // atributos
+  app = express();
+
+  // getter app
+  getApp() {
+    return this.app;
+  }
+
   // constructor de classe
-  constructor(app = express()) {
+  constructor(app = this.app) {
     this.middlewares(app);
     this.routes(app);
     this.database();
@@ -22,8 +33,10 @@ class Server {
   async middlewares(app) {
     app.use(cors());
     app.use(express.json());
-    app.use(morgan("dev"))
+    app.use(morgan('combined', { stream: logger.stream }));
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    // app.use(pinoHttp);
+
   }
   // connect database
   async database() {
