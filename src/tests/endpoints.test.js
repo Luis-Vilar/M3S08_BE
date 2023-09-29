@@ -10,7 +10,7 @@ const { verify } = require("jsonwebtoken");
 
 
 
-describe('Usuarios Endpoints', () => {
+describe('Create Read Update : Usuarios  ', () => {
     it('Criando Usuario', async () => {
         const res = await API
             .post('/api/v1/usuario')
@@ -27,7 +27,6 @@ describe('Usuarios Endpoints', () => {
         const res = await API
             .post('/api/v1/login')
             .send({
-                name: 'Teste',
                 email: 'email@dominio.com',
                 password: 'Alone1983@'
             })
@@ -71,17 +70,9 @@ describe('Usuarios Endpoints', () => {
         expect(res.body).toBeInstanceOf(Object);
 
     });
-    it('Deletando Usuario', async () => {
-
-        const res = await API
-            .delete(`/api/v1/usuario/1`)
-            .set('Authorization', `${token}`)
-            .expect(204);
-        expect(res.body).toBeInstanceOf(Object);
-
-    });
+   
 });
-describe('Unidades Endpoints', () => {
+describe('Create Read Update : Unidades  ', () => {
 
     it('Criando Unidade', async () => {
         const res = await API
@@ -126,12 +117,82 @@ describe('Unidades Endpoints', () => {
         expect(res.body).toBeInstanceOf(Object);
 
     });
+   
+});
+describe('Create Read Update : Geracao ', () => {
+
+    it('Criando Geracao', async () => {
+        const res = await API
+            .post('/api/v1/geracao')
+            .set('Authorization', `${token}`)
+            .send({
+                unidade_id : '1',
+                reference_date : ('2023-01'),
+                total_generated : 1000
+            })
+            .expect(201);
+    }
+    );
+    it('Listando Geracao com token', async () => {
+
+        const res = await API
+            .get('/api/v1/geracao')
+            .set('Authorization', `${token}`)
+            .expect(200);
+        expect(res.body).toBeInstanceOf(Array);
+    }
+    );
+    it('Listando Geracao sem token', async () => {
+
+        await API
+            .get('/api/v1/geracao')
+            .expect(401);
+    }
+    );
+    it('Atualizando Geracao', async () => {
+
+        const res = await API
+            .put('/api/v1/geracao/1')
+            .set('Authorization', `${token}`)
+            .send({
+                reference_date : '2023-01',
+                total_generated : 2000
+            })
+            .expect(200);
+        expect(res.body).toBeInstanceOf(Object);
+
+    });
+  
+});
+
+describe('Delete  : Usuario, Unidade , Geracao ', () => {
+  
+    it('Deletando Geracao', async () => {
+
+        const res = await API
+            .delete(`/api/v1/geracao/1`)
+            .set('Authorization', `${token}`)
+            .expect(204);
+        expect(res.body).toBeInstanceOf(Object);
+
+    });
+
+
     it('Deletando Unidade', async () => {
 
         const res = await API
             .delete(`/api/v1/unidades/1`)
             .set('Authorization', `${token}`)
             .expect(200);
+        expect(res.body).toBeInstanceOf(Object);
+
+    });
+    it('Deletando Usuario', async () => {
+
+        const res = await API
+            .delete(`/api/v1/usuario/1`)
+            .set('Authorization', `${token}`)
+            .expect(204);
         expect(res.body).toBeInstanceOf(Object);
 
     });

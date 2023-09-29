@@ -33,7 +33,7 @@ const User = connection.define(
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },
-  { underscored: true, paranoid: true } //Serve para escrevermos no banco de dados em Snake Case,
+  { underscored: true, paranoid: false } //Serve para escrevermos no banco de dados em Snake Case,
   //podendo persistir o camelCase do JS
 );
 

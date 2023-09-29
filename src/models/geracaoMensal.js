@@ -28,7 +28,7 @@ const GeracaoMensal = connection.define("geracoes", {
     createdAt: DATE,
     updatedAt: DATE,
 },
-{ underscored: true, paranoid: true } 
+{ underscored: true, paranoid: false } 
 );
 
 module.exports = {GeracaoMensal}
