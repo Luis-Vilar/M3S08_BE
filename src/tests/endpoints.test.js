@@ -3,7 +3,6 @@ const { Server } = require('../server');
 const app = new Server().getApp();
 const API = supertest(app);
 var token = '';
-var id = '';
 const { verify } = require("jsonwebtoken");
 // antes de fazer os testes mudar variavel de ambiente para um banco novo de testes no arquivo .env
 // e rodar npx sequelize-cli db:create && npx sequelize-cli db:migrate 
